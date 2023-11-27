@@ -1,58 +1,49 @@
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#define MAX_PRODUCTOS 50
+#define MAX_USUARIOS 10
 
-enum TipoUsuario {
-  Administrador,
-  Vendedor,
-  Bodeguero
-};
+typedef enum {
+    ADMINISTRADOR,
+    BODEGUERO,
+    VENDEDOR
+} TipoUsuario;
 
-struct Usuario {
-  enum TipoUsuario tipo;
-  char nombre[50];
-  char pass[50];
-};
+typedef struct {
+    char nombre[50];
+    char categoria[20];
+    char marca[20];
+    int codigo;
+    float precioCompra;
+    char bodega[20];
+    int cantidad;
+} Producto;
 
-struct Producto {
-  char nombre[50];
-  char categoria[50];
-  char marca[50];
-  int codigo;
-  float precioCompra;
-  char bodega;
-  int cantidad;
-};
+typedef struct {
+    char nombre[50];
+    char password[20];
+    TipoUsuario tipo;
+} Usuario;
 
-struct Venta {
-  char local[50];
-  char vendedor[50];
-  char fecha[20];
-  int codigoProducto;
-  float precioVenta;
-  int cantidad;
-};
+typedef struct {
+    char local[20];
+    char vendedor[30];
+    char fecha[15];
+    float precioVenta;
+    int cantidadVendida;
+} RegistroVenta;
 
-struct Usuario crear_usuario(enum TipoUsuario tipo, char nombre[50], char pass[50]);
-void add_usuario(struct Usuario *usuarios, struct Usuario nuevo_usuario);
-void actualizar_usuario(struct Usuario *usuario, struct Usuario nuevo_usuario);
-void actualizar_producto(struct Producto *productos, int productIndex);
-struct Producto registrarProducto(char nom[50], char cat[50], char m[50], char bod, int cantidadEdit, int cod, float precio);
-struct Venta crear_venta(struct Producto *producto);
-void fijar_tipo_usuario(enum TipoUsuario *tipo, int option);
-void mostrar_usuarios(struct Usuario *usuarios);
-void add_product(struct Producto *productos, struct Producto nuevo_producto);
-struct Producto* seleccionar_producto(struct Producto *productos);
-struct Producto crear_producto();
-struct Venta registrarVenta(char loc[50], char vend[50], char fech[20], int codigoProd, int cant, float precioVen);
-void leer_usuarios(struct Usuario *usuarios);
-void escribir_usuarios(struct Usuario *usuarios);
-void leer_productos(struct Producto *productos);
-void escribir_productos(struct Producto *productos);
-void leer_ventas(struct Venta *ventas);
-void escribir_ventas(struct Venta *ventas);
+void crearUsuario(Usuario usuarios[], int *numUsuarios);
+void actualizarUsuario(Usuario usuarios[], int numUsuarios);
+void crearProducto(Producto productos[], int *numProductos);
+void actualizarProducto(Producto productos[], int numProductos);
+void venderProducto(Producto productos[], int numProductos, RegistroVenta ventas[], int *numVentas);
+void mostrarResumen(Producto productos[], int numProductos, RegistroVenta ventas[], int numVentas);
+int autenticarUsuario(Usuario usuarios[], int numUsuarios);
+void guardarUsuarios(Usuario usuarios[], int numUsuarios);
+void guardarProductos(Producto productos[], int numProductos);
+void guardarVentas(RegistroVenta ventas[], int numVentas);
+void inicializarPrograma(Usuario usuarios[], int *numUsuarios, Producto productos[], int *numProductos, RegistroVenta ventas[], int *numVentas);
 
 #endif
